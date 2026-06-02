@@ -23,6 +23,40 @@ ESPERADOS = [
     "veil-type", "veil-color", "has-ring", "ring-type", "spore-print-color", 
     "habitat", "season"
 ]
+CARACTERISTICAS = ["cap-diameter", "cap-shape", "cap-surface", "cap-color", 
+    "does-bruise-or-bleed", "gill-attachment", "gill-spacing", "gill-color", 
+    "stem-height", "stem-width", "stem-root", "stem-surface", "stem-color", 
+    "veil-type", "veil-color", "has-ring", "ring-type", "spore-print-color", 
+    "habitat", "season"]
+OBJETIVO = ["class"] 
+
+# Lista de variables categóricas (nominales - 'n')
+CATEGORICAS = [
+    "cap-shape",
+    "cap-surface",
+    "cap-color",
+    "does-bruise-or-bleed",
+    "gill-attachment",
+    "gill-spacing",
+    "gill-color",
+    "stem-root",
+    "stem-surface",
+    "stem-color",
+    "veil-type",
+    "veil-color",
+    "has-ring",
+    "ring-type",
+    "spore-print-color",
+    "habitat",
+    "season"
+]
+
+# Lista de variables numéricas (métricas - 'm')
+NUMERICAS = [
+    "cap-diameter",
+    "stem-height",
+    "stem-width"
+]
 
 TRAD_NAN = { "NaN" : "none"}
 COMESTIBLES = { "e" : 1, "p" : 0}
