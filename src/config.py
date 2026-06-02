@@ -23,3 +23,6 @@ ESPERADOS = [
     "veil-type", "veil-color", "has-ring", "ring-type", "spore-print-color", 
     "habitat", "season"
 ]
+
+TRAD_NAN = { "NaN" : "none"}
+COMESTIBLES = { "e" : 1, "p" : 0}
