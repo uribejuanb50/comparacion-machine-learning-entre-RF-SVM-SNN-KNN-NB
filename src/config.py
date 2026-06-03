@@ -60,3 +60,13 @@ NUMERICAS = [
 
 TRAD_NAN = { "NaN" : "none"}
 COMESTIBLES = { "e" : 1, "p" : 0}
+
+
+#MODELS
+HIPERPARAMETROS_RF = {
+        'n_estimators': 300,
+        'max_depth': 5,
+        'learning_rate': 0.05,
+        'random_state': SEMILLA,
+        'subsample': 0.8
+    }

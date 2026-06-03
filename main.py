@@ -10,7 +10,9 @@ from src.config import (DATASET1,
                         OBJETIVO,
                         SEMILLA,
                         CATEGORICAS,
-                        NUMERICAS)
+                        NUMERICAS,
+                        HIPERPARAMETROS_RF)
+from src.models.RFmodel import RFmodel
 
 def main():
 
@@ -33,6 +35,9 @@ def main():
 
     for cabecera, valor in zip(cabeceras, primera_linea) :
         print(f"{cabecera} - {valor}")
+
+    rf_model = RFmodel(**HIPERPARAMETROS_RF)
+    rf_model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
 
 
 
