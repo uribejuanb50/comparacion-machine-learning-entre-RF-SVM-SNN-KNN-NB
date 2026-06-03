@@ -38,6 +38,8 @@ def main():
 
     rf_model = RFmodel(**HIPERPARAMETROS_RF)
     rf_model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
+    print(f"[main] predict:\n{rf_model.predict(valores['x_test'])}")
+    print(f"[main] predict_proba:\n{rf_model.predict_proba(valores['x_test'])}")
 
 
 
