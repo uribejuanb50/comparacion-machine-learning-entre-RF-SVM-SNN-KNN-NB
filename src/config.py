@@ -63,6 +63,8 @@ COMESTIBLES = { "e" : 1, "p" : 0}
 
 
 #MODELS
+
+#RF--------------------------------------
 HIPERPARAMETROS_RF = {
         'n_estimators': 300,
         'max_depth': 5,
@@ -70,3 +72,7 @@ HIPERPARAMETROS_RF = {
         'random_state': SEMILLA,
         'subsample': 0.8
     }
+
+
+#ANN-------------------------
+CAPAS_OCULTAS = [128, 64, 32]

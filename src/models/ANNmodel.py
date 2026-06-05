@@ -43,10 +43,13 @@ class ANNmodel(model) :
         optimizer = torch.optim.Adam(params = nnModule.parameters(),
                                      lr = self.learning_rate
                                      )
-        
+
+        tiempos_en_0 = 0
         for epoca in self.epochs :
 
             nnModule.train()
+
+            acum_perdida = 0
 
             for batch_x, batch_y in data_loader :
 
@@ -57,9 +60,19 @@ class ANNmodel(model) :
 
                 outputs = nnModule(batch_x)
                 perdida = loss(outputs, batch_y)
-                perdida.backward
-                
+                perdida.backward()
 
+                optimizer.step()
+
+                acum_perdida += perdida
+
+            nnModule.eval()
+            
+            with torch.no_grad() :
+
+                for x
+                
+        return
 
 
 
