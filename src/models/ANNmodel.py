@@ -4,9 +4,47 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from torch.utils.data import TensorDataset, DataLoader
+
 
 class ANNmodel(model) :
-    def __init__(self, capas_ocultas, dropout, learning_rate, batch_size, epochs, patience)
+    def __init__(self, capas_ocultas, dropout, learning_rate, batch_size, epochs, patience, semilla = 42,
+                 device = "cuda" if torch.cuda.is_available() else "cpu") :
+
+        torch.manual_seed(semilla)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
+
+        self.capas_ocultas = capas_ocultas
+        self.dropout = dropout
+        self.learning_rate = learning_rate
+        self.batch_size = batch_size
+        self.epochs = epochs
+        self.patience = patience
+        self.device = device
+
+    def fit(self, x_train, y_train, x_valdiar = None, y_validar = None):
+
+        x_train_input = torch.FloatTensor(x_train.toarray())
+        y_train_targets = torch.FloatTensor(y_train)
+
+        dataset = TensorDataset(x_train_input, y_train_targets)
+
+        data_loader = DataLoader(dataset, self.batch_size, shuffle = True)
+
+        n_classes = 1
+
+        nnModule = NnModule(x_train.shape[1],
+                            n_classes,
+                            self.capas_ocultas,
+                            self.dropout).to(self.device)
+        
+        loss = nn.BCEWithLogitsLoss()
+        optimizer = torch.optim.Adam(params = nnModule.parameters(),
+                                     lr = self.learning_rate
+                                     )
+
+
 
 class NnModule(nn.Module) :
     def __init__(self, n_features, n_classes, capas_ocultas, dropout) :
