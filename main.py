@@ -15,10 +15,12 @@ from src.config import (DATASET,
                         NUMERICAS,
                         LOG_TRANSFORM,
                         HIPERPARAMETROS_RF,
-                        HIPERPARAMETROS_ANN)
+                        HIPERPARAMETROS_ANN,
+                        HIPERPARAMETROS_KNN)
 
 from src.models.RFmodel import RFmodel
 from src.models.ANNmodel import ANNmodel
+from src.models.KNNmodel import KNNmodel
 
 def main():
 
@@ -47,17 +49,19 @@ def main():
     for cabecera, valor in zip(cabeceras, primera_linea) :
         print(f"{cabecera} - {valor}")
 
-    model = RFmodel(**HIPERPARAMETROS_RF)
-    model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
+    #model = RFmodel(**HIPERPARAMETROS_RF)
+    #model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
     #model = ANNmodel(**HIPERPARAMETROS_ANN)
     #model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
-    print(f"[main] predict:\n{model.predict(valores['x_test'])}")
-    print(f"[main] predict_proba:\n{model.predict_proba(valores['x_test'])}")
+    model = KNNmodel(**HIPERPARAMETROS_KNN)
+    model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
+    #print(f"[main] predict:\n{model.predict(valores['x_test'])}")
+    #print(f"[main] predict_proba:\n{model.predict_proba(valores['x_test'])}")
 
     y_pred = model.predict(valores["x_test"])
 
-    print(confusion_matrix(valores["y_test"], y_pred))
-    print(classification_report(valores["y_test"], y_pred))
+    #print(confusion_matrix(valores["y_test"], y_pred))
+    #print(classification_report(valores["y_test"], y_pred))
 
 
 

@@ -24,3 +24,18 @@ def split_dataframe(dataframe, caracteristicas, objetivo, semilla) :
     
     return x_train, y_train, x_validar, y_validar, x_test, y_test
 
+def submuestreo_estratificado(x_train, y_train, n_muestras, semilla) :
+
+    if n_muestras > x_train.shape[0] :
+        return x_train, y_train
+    
+    x_train_copia = x_train.copy()
+    y_train_copia = y_train.copy()
+
+    x_train_sub, _, y_train_sub, _ = train_test_split(x_train_copia, y_train_copia,
+                                      train_size = n_muestras,
+                                      stratify = y_train,
+                                      random_state = semilla
+                                     )
+    
+    return x_train_sub, y_train_sub

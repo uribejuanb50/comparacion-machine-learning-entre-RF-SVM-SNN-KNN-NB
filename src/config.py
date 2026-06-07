@@ -114,5 +114,9 @@ HIPERPARAMETROS_KNN = {
     "n_neighbors" : K_GRIDSEARCH,
     "weights" : "distance",
     "metric" : "moinkowski",
-    "p" : 1
+    "p" : 1,
+    "algorithm" : "brute",
+    "n_jobs" : -1,
+    "semilla" : SEMILLA,
+    "n_muestras" : 8000 #submuestreo
 }
