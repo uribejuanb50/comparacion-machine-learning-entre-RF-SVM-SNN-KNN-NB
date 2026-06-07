@@ -11,10 +11,10 @@ from src.data.splitter import submuestreo_estratificado
 
 class KNNmodel(model):
 
-    def __init__(self, n_jobs, semilla, n_muestras, dict) :
+    def __init__(self, algorithm, n_jobs, semilla, n_muestras, dict) :
         self.entrenado = False
 
-        self.model = KNeighborsClassifier(n_jobs = n_jobs)
+        self.model = KNeighborsClassifier(algorithm = algorithm, n_jobs = n_jobs)
         self.n_jobs = n_jobs
         self.param_grid = dict
         self.semilla = semilla
@@ -34,12 +34,15 @@ class KNNmodel(model):
         
         grid.fit(x_train_copia, y_train_copia)
 
-        self.modelo = grid.best_estimator_
+        self.model = grid.best_estimator_
         self.entrenado = True
+
+        self.model.fit(x_train, y_train)
 
         print(f"[KNNmodel] Mejores params: {grid.best_params_}")
         print(f"[KNNmodel] Puntaje f1 en Cross Validation (CV): {grid.best_score_:.4f}")
         print("[KNNmodel] Entrenamiento terminado")
+        
         return
 
     def predict(self, x_test):
