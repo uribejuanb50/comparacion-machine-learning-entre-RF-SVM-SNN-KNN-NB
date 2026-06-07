@@ -117,6 +117,17 @@ class ANNmodel(model) :
 
             return prediccion.cpu().numpy()
 
+    def predict_proba(self, x_test):
+        self.modelo.eval()
+
+        with torch.no_grad() :
+
+            x_test_input = torch.FloatTensor(x_test.toarray()).to(self.device)
+
+            outputs_predict = self.modelo(x_test_input)
+            outputs_predict = torch.sigmoid(outputs_predict)
+
+            return outputs_predict.cpu().numpy()
 
 
 class NnModule(nn.Module) :
