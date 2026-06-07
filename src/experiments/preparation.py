@@ -1,7 +1,7 @@
 import src.data.splitter as splitter
 import src.data.preprocessor as preprocessor
 
-def preparacion(dataframe, col_objetivo, diccionario, caracteristicas, columna_codif, semilla, categoricas, numericas, cols_dropear) :
+def preparacion(dataframe, col_objetivo, diccionario, caracteristicas, columna_codif, semilla, categoricas, numericas, log_transform, cols_dropear) :
     dataframe_copia = dataframe.copy()
 
     dataframe_copia = dataframe_copia.fillna("none")
@@ -17,7 +17,8 @@ def preparacion(dataframe, col_objetivo, diccionario, caracteristicas, columna_c
                                                                                            x_validar,
                                                                                            x_test,
                                                                                            categoricas,
-                                                                                           numericas)
+                                                                                           numericas,
+                                                                                           log_transform)
 
     return {
         "x_train" : x_train_calibrado,

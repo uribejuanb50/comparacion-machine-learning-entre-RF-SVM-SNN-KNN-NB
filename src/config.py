@@ -5,8 +5,8 @@ RAIZ = Path(__file__).resolve().parents[1]
 DATA = RAIZ / "data"
 DATA_PROCESSED = DATA / "processed"
 DATA_RAW = DATA / "raw"
-DATASET1 = DATA_RAW / "primary_data.csv"
-DATASET2 = DATA_RAW / "secondary_data.csv"
+DATASET = DATA_RAW / "adult.data"
+
 
 REPORTS = RAIZ / "reports"
 FIGURES = REPORTS / "figures"
@@ -65,14 +65,17 @@ CATEGORICAS = [
 NUMERICAS = [
     "age",
     "education-num",
+    "hours-per-week",
+]
+
+LOG_TRANSFORM = [
     "capital-gain",
     "capital-loss",
-    "hours-per-week",
 ]
 
 TRAD_NAN = {"?": "none", " ?": "none"}   # Adult usa "?" como missing
 
-INGRESO = {">50K": 1, "<=50K": 0}        # antes COMESTIBLES; renombra en main.py
+INGRESO = {" >50K": 1, " <=50K": 0}        # antes COMESTIBLES; renombra en main.py
 
 
 #MODELS

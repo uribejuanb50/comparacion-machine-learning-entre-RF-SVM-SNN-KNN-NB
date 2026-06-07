@@ -1,6 +1,8 @@
+import numpy as np
+
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, FunctionTransformer
 
 def codificar_columna(dataframe, columna, diccionario, tipo) :
     dataframe_copia = dataframe.copy()
@@ -9,17 +11,20 @@ def codificar_columna(dataframe, columna, diccionario, tipo) :
 
     return dataframe_copia
 
-def one_hot_cambio(x_train, x_validar, x_test, categoricas, numericas) :
+def one_hot_cambio(x_train, x_validar, x_test, categoricas, numericas, log_transform) :
 
-    print(f"categoricas:\n{categoricas}\nnumericas:\n{numericas}")   
+    print(f"[Preprocessor] Categoricas:\n{categoricas}\nnumericas:\n{numericas}")   
     one_hot = OneHotEncoder(handle_unknown = "infrequent_if_exist", sparse_output= True, min_frequency = 100)
 
     escalador_numerico = StandardScaler()
 
+    escalador_logaritmico = FunctionTransformer(np.log1p, feature_names_out= "one-to-one")
+
     procesador = ColumnTransformer(
         transformers=[
             ("categorico", one_hot, categoricas),
-            ("numerico", escalador_numerico, numericas)
+            ("numerico", escalador_numerico, numericas),
+            ("log_transform", escalador_logaritmico, log_transform)
         ]
     )
 

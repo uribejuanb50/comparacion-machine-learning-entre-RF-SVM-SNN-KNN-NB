@@ -3,8 +3,7 @@ import src.experiments.preparation as preparation
 
 from sklearn.metrics import confusion_matrix, classification_report
 
-from src.config import (DATASET1,
-                        DATASET2,
+from src.config import (DATASET,
                         ESPERADOS,
                         TRAD_NAN,
                         INGRESO,
@@ -14,6 +13,7 @@ from src.config import (DATASET1,
                         SEMILLA,
                         CATEGORICAS,
                         NUMERICAS,
+                        LOG_TRANSFORM,
                         HIPERPARAMETROS_RF,
                         HIPERPARAMETROS_ANN)
 from src.models.RFmodel import RFmodel
@@ -23,18 +23,20 @@ def main():
 
     #dataframe = loader.leer_archivo(DATASET1, ESPERADOS)
     #print(dataframe)
-    dataframe = loader.leer_archivo(DATASET2, ESPERADOS)
-
-    dataframe = dataframe.drop(columns = COLS_A_DROPEAR)
+    dataframe = loader.leer_archivo(DATASET, ESPERADOS)
     
+    print(dataframe["income"].unique())
+    print(dataframe["income"].value_counts())
+
     valores = preparation.preparacion(dataframe= dataframe,
                                       col_objetivo= OBJETIVO[0],
                                       diccionario= INGRESO,
                                       caracteristicas= CARACTERISTICAS,
-                                      columna_codif= "class",
+                                      columna_codif= "income",
                                       semilla= SEMILLA,
                                       categoricas= CATEGORICAS,
                                       numericas= NUMERICAS,
+                                      log_transform= LOG_TRANSFORM,
                                       cols_dropear= COLS_A_DROPEAR)
     x_train = valores["x_train"]
 
