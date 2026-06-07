@@ -6,6 +6,8 @@ import torch.nn.functional as F
 
 import copy as cpy
 
+import numpy as np
+
 from torch.utils.data import TensorDataset, DataLoader
 
 
@@ -100,7 +102,20 @@ class ANNmodel(model) :
             nnModule.load_state_dict(mejores_pesos)
                 
         return
+    
+    def predict(self, x_test) :
+        self.modelo.eval()
 
+        with torch.no_grad() :
+
+            x_test_input = torch.FloatTensor(x_test.toarray()).to(self.device)
+
+            outputs_predict = self.modelo(x_test_input)
+            outputs_predict = torch.sigmoid(outputs_predict)
+
+            prediccion = (outputs_predict >= 0.5).int()
+
+            return prediccion.cpu().numpy()
 
 
 
