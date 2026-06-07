@@ -30,6 +30,9 @@ class ANNmodel(model) :
     def fit(self, x_train, y_train, x_validar = None, y_validar = None):
 
         print("[ANNmodel] Comenzando el entrenamiento...")
+        print(f"[ANNmodel] Device: {self.device} | Épocas: {self.epochs} | Batch: {self.batch_size}")
+        print(f"[ANNmodel] Arquitectura: {self.capas_ocultas} | Dropout: {self.capas_ocultas} | LR: {self.learning_rate}")
+        print(f"[ANNmodel] size train: x - {len(x_train)}, y - {len(y_train)} | size val: x - {len(x_validar)}, y - {len(y_validar)}")
 
         x_train_input = torch.FloatTensor(x_train.toarray())
         y_train_targets = torch.FloatTensor(y_train)
@@ -52,8 +55,10 @@ class ANNmodel(model) :
 
         tiempos_en_0 = 0
         mejor_loss_validar = float('inf')
+        mejor_epoca = 0
+        status = ""
 
-        for epoca in self.epochs :
+        for epoca in range(self.epochs) :
 
             nnModule.train()
 
@@ -87,21 +92,30 @@ class ANNmodel(model) :
 
                 #Vamos aquí  
 
-            if loss_validar < mejor_loss_validar :
+            train_loss_promedio = acum_perdida / len(data_loader)
+            val_loss_actual = loss_validar.item()
 
-                mejor_loss_validar = loss_validar
+            if val_loss_actual < mejor_loss_validar :
+
+                mejor_loss_validar = val_loss_actual
                 tiempos_en_0 = 0
+                mejor_epoca = epoca + 1
+                status = "!!Nuevo mejor"
 
                 mejores_pesos = cpy.deepcopy(nnModule.state_dict())
             
             else :
                 tiempos_en_0 += 1
+                status = f"Sin mejora ({tiempos_en_0} / {self.patience})"
+
+            print(f"Epoca {epoca+1:3d}/{self.epochs} | train_loss: {train_loss_promedio:.4f} | val_loss: {val_loss_actual:.4f} | {status}")
 
             if tiempos_en_0 >= self.patience :
+                print(f"[ANNmodel] Early stopping, {self.patience} sin mejora")
                 break
 
-            self.modelo = nnModule
-            nnModule.load_state_dict(mejores_pesos)
+        self.modelo = nnModule
+        nnModule.load_state_dict(mejores_pesos)
 
         print("[ANNmodel] Entrenamiento finalizado")      
         return
@@ -115,6 +129,7 @@ class ANNmodel(model) :
 
             outputs_predict = self.modelo(x_test_input)
             outputs_predict = torch.sigmoid(outputs_predict)
+            outputs_predict = outputs_predict.squeeze()
 
             prediccion = (outputs_predict >= 0.5).int()
 
@@ -129,8 +144,11 @@ class ANNmodel(model) :
 
             outputs_predict = self.modelo(x_test_input)
             outputs_predict = torch.sigmoid(outputs_predict)
+            outputs_predict = outputs_predict.squeeze()
 
-            prediccion = map(lambda x: (1 - x, x), outputs_predict)
+            prob_clase_0 = 1 - outputs_predict
+
+            prediccion = torch.cat((prob_clase_0, outputs_predict), dim = 1)
 
             return prediccion.cpu().numpy()
 
