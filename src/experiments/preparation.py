@@ -1,10 +1,11 @@
 import src.data.splitter as splitter
 import src.data.preprocessor as preprocessor
 
-def preparacion(dataframe, col_objetivo, diccionario, caracteristicas, columna_codif, semilla, categoricas, numericas) :
+def preparacion(dataframe, col_objetivo, diccionario, caracteristicas, columna_codif, semilla, categoricas, numericas, cols_dropear) :
     dataframe_copia = dataframe.copy()
 
     dataframe_copia = dataframe_copia.fillna("none")
+    dataframe_copia = dataframe_copia.drop(columns = cols_dropear)
     dataframe_copia = preprocessor.codificar_columna(dataframe_copia, col_objetivo, diccionario, int)
 
     x_train, y_train, x_validar, y_validar, x_test, y_test = splitter.split_dataframe(dataframe_copia,

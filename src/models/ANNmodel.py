@@ -31,11 +31,11 @@ class ANNmodel(model) :
 
         print("[ANNmodel] Comenzando el entrenamiento...")
         print(f"[ANNmodel] Device: {self.device} | Épocas: {self.epochs} | Batch: {self.batch_size}")
-        print(f"[ANNmodel] Arquitectura: {self.capas_ocultas} | Dropout: {self.capas_ocultas} | LR: {self.learning_rate}")
-        print(f"[ANNmodel] size train: x - {len(x_train)}, y - {len(y_train)} | size val: x - {len(x_validar)}, y - {len(y_validar)}")
+        print(f"[ANNmodel] Arquitectura: {self.capas_ocultas} | Dropout: {self.dropout} | LR: {self.learning_rate}")
+        print(f"[ANNmodel] size train: x - {x_train.shape[0]}, y - {y_train.shape[0]} | size val: x - {x_validar.shape[0]}, y - {y_validar.shape[0]}")
 
         x_train_input = torch.FloatTensor(x_train.toarray())
-        y_train_targets = torch.FloatTensor(y_train)
+        y_train_targets = torch.FloatTensor(y_train.values).unsqueeze(1)
 
         dataset = TensorDataset(x_train_input, y_train_targets)
 
@@ -85,7 +85,7 @@ class ANNmodel(model) :
             with torch.no_grad() :
 
                 x_validar_input = torch.FloatTensor(x_validar.toarray()).to(self.device)
-                y_validar_target = torch.FloatTensor(y_validar).to(self.device)
+                y_validar_target = torch.FloatTensor(y_validar.values).unsqueeze(1).to(self.device)
 
                 outputs_validar = nnModule(x_validar_input)
                 loss_validar = criterio(outputs_validar, y_validar_target)
@@ -144,7 +144,6 @@ class ANNmodel(model) :
 
             outputs_predict = self.modelo(x_test_input)
             outputs_predict = torch.sigmoid(outputs_predict)
-            outputs_predict = outputs_predict.squeeze()
 
             prob_clase_0 = 1 - outputs_predict
 

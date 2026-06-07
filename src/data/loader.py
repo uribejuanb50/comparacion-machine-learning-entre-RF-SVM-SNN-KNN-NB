@@ -2,7 +2,7 @@ import pandas as pd
 
 def leer_archivo(ruta_archivo, esperados) :
 
-    dataframe = pd.read_csv(ruta_archivo, sep = ";")
+    dataframe = pd.read_csv(ruta_archivo, names = esperados, na_values = ["?", " ?"])
 
     validar_schema(esperados, dataframe)
     validar_errores(dataframe)

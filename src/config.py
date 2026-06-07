@@ -16,50 +16,63 @@ MODELS = RAIZ / "models"
 
 SEMILLA = 42
 
+#Manejo de datos:
+#Manejo de datos:
+#Manejo de datos:
 ESPERADOS = [
-    "class", "cap-diameter", "cap-shape", "cap-surface", "cap-color", 
-    "does-bruise-or-bleed", "gill-attachment", "gill-spacing", "gill-color", 
-    "stem-height", "stem-width", "stem-root", "stem-surface", "stem-color", 
-    "veil-type", "veil-color", "has-ring", "ring-type", "spore-print-color", 
-    "habitat", "season"
+    "age", "workclass", "fnlwgt", "education", "education-num",
+    "marital-status", "occupation", "relationship", "race", "sex",
+    "capital-gain", "capital-loss", "hours-per-week", "native-country",
+    "income"
 ]
-CARACTERISTICAS = ["cap-diameter", "cap-shape", "cap-surface", "cap-color", 
-    "does-bruise-or-bleed", "gill-attachment", "gill-spacing", "gill-color", 
-    "stem-height", "stem-width", "stem-root", "stem-surface", "stem-color", 
-    "veil-type", "veil-color", "has-ring", "ring-type", "spore-print-color", 
-    "habitat", "season"]
-OBJETIVO = ["class"] 
 
-# Lista de variables categóricas (nominales - 'n')
+COLS_A_DROPEAR = [
+    "fnlwgt",       # peso muestral del censo, no es predictivo
+    "education",    # redundante con education-num (info ordinal mejor preservada)
+]
+
+CARACTERISTICAS = [
+    "age",
+    "workclass",
+    #"fnlwgt",          # dropped
+    #"education",       # dropped, usamos education-num
+    "education-num",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "capital-gain",
+    "capital-loss",
+    "hours-per-week",
+    "native-country",
+]
+
+OBJETIVO = ["income"]
+
+# Lista de variables categóricas (nominales)
 CATEGORICAS = [
-    "cap-shape",
-    "cap-surface",
-    "cap-color",
-    "does-bruise-or-bleed",
-    "gill-attachment",
-    "gill-spacing",
-    "gill-color",
-    "stem-root",
-    "stem-surface",
-    "stem-color",
-    "veil-type",
-    "veil-color",
-    "has-ring",
-    "ring-type",
-    "spore-print-color",
-    "habitat",
-    "season"
+    "workclass",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country",
 ]
 
-# Lista de variables numéricas (métricas - 'm')
+# Lista de variables numéricas
 NUMERICAS = [
-    "cap-diameter",
-    "stem-height",
-    "stem-width"
+    "age",
+    "education-num",
+    "capital-gain",
+    "capital-loss",
+    "hours-per-week",
 ]
 
-TRAD_NAN = { "NaN" : "none"}
-COMESTIBLES = { "e" : 1, "p" : 0}
+TRAD_NAN = {"?": "none", " ?": "none"}   # Adult usa "?" como missing
+
+INGRESO = {">50K": 1, "<=50K": 0}        # antes COMESTIBLES; renombra en main.py
 
 
 #MODELS
@@ -76,3 +89,15 @@ HIPERPARAMETROS_RF = {
 
 #ANN-------------------------
 CAPAS_OCULTAS = [128, 64, 32]
+
+HIPERPARAMETROS_ANN = {
+    "capas_ocultas": CAPAS_OCULTAS,
+    "dropout": 0.3,
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "epochs": 50,
+    "patience": 10,
+    # semilla y device los puedes omitir (usan defaults) o sobreescribir:
+    "semilla": SEMILLA,
+    # "device": "cuda",
+}
