@@ -18,5 +18,9 @@ def split_dataframe(dataframe, caracteristicas, objetivo, semilla) :
                                                             random_state= semilla
                                                             )
     
+    print(f"[Splitter] Tam train : x - {x_train.shape[0]}, y - {y_train.shape[0]}")
+    print(f"[Splitter] Tam validar : x - {x_validar.shape[0]}, y - {y_validar.shape[0]}")
+    print(f"[Splitter] Tam test : x - {x_test.shape[0]}, y - {y_test.shape[0]}")
+    
     return x_train, y_train, x_validar, y_validar, x_test, y_test
 

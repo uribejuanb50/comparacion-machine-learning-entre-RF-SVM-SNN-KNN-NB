@@ -104,3 +104,15 @@ HIPERPARAMETROS_ANN = {
     "semilla": SEMILLA,
     # "device": "cuda",
 }
+
+
+#KNN-----------------------------------
+
+K_GRIDSEARCH = [5, 10, 25, 50, 100]
+
+HIPERPARAMETROS_KNN = {
+    "n_neighbors" : K_GRIDSEARCH,
+    "weights" : "distance",
+    "metric" : "moinkowski",
+    "p" : 1
+}
