@@ -4,6 +4,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+import copy as cpy
+
 from torch.utils.data import TensorDataset, DataLoader
 
 
@@ -23,7 +25,7 @@ class ANNmodel(model) :
         self.patience = patience
         self.device = device
 
-    def fit(self, x_train, y_train, x_valdiar = None, y_validar = None):
+    def fit(self, x_train, y_train, x_validar = None, y_validar = None):
 
         x_train_input = torch.FloatTensor(x_train.toarray())
         y_train_targets = torch.FloatTensor(y_train)
@@ -39,38 +41,63 @@ class ANNmodel(model) :
                             self.capas_ocultas,
                             self.dropout).to(self.device)
         
-        loss = nn.BCEWithLogitsLoss()
+        criterio = nn.BCEWithLogitsLoss()
         optimizer = torch.optim.Adam(params = nnModule.parameters(),
                                      lr = self.learning_rate
                                      )
 
         tiempos_en_0 = 0
+        mejor_loss_validar = float('inf')
+
         for epoca in self.epochs :
 
             nnModule.train()
 
             acum_perdida = 0
+            loss_validar = 0
 
             for batch_x, batch_y in data_loader :
 
-                batch_x.to(self.device)
-                batch_y.to(self.device)
+                batch_x = batch_x.to(self.device)
+                batch_y = batch_y.to(self.device)
 
                 optimizer.zero_grad()
 
                 outputs = nnModule(batch_x)
-                perdida = loss(outputs, batch_y)
+                perdida = criterio(outputs, batch_y)
                 perdida.backward()
 
                 optimizer.step()
 
-                acum_perdida += perdida
+                acum_perdida += perdida.item()
 
             nnModule.eval()
-            
+
             with torch.no_grad() :
 
-                for x
+                x_validar_input = torch.FloatTensor(x_validar.toarray()).to(self.device)
+                y_validar_target = torch.FloatTensor(y_validar).to(self.device)
+
+                outputs_validar = nnModule(x_validar_input)
+                loss_validar = criterio(outputs_validar, y_validar_target)
+
+                #Vamos aquí  
+
+            if loss_validar < mejor_loss_validar :
+
+                mejor_loss_validar = loss_validar
+                tiempos_en_0 = 0
+
+                mejores_pesos = cpy.deepcopy(nnModule.state_dict())
+            
+            else :
+                tiempos_en_0 += 1
+
+            if tiempos_en_0 >= self.patience :
+                break
+
+            self.modelo = nnModule
+            nnModule.load_state_dict(mejores_pesos)
                 
         return
 
