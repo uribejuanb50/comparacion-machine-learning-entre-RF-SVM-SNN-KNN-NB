@@ -29,6 +29,8 @@ class ANNmodel(model) :
 
     def fit(self, x_train, y_train, x_validar = None, y_validar = None):
 
+        print("[ANNmodel] Comenzando el entrenamiento...")
+
         x_train_input = torch.FloatTensor(x_train.toarray())
         y_train_targets = torch.FloatTensor(y_train)
 
@@ -100,7 +102,8 @@ class ANNmodel(model) :
 
             self.modelo = nnModule
             nnModule.load_state_dict(mejores_pesos)
-                
+
+        print("[ANNmodel] Entrenamiento finalizado")      
         return
     
     def predict(self, x_test) :
@@ -127,11 +130,24 @@ class ANNmodel(model) :
             outputs_predict = self.modelo(x_test_input)
             outputs_predict = torch.sigmoid(outputs_predict)
 
-            return outputs_predict.cpu().numpy()
+            prediccion = map(lambda x: (1 - x, x), outputs_predict)
+
+            return prediccion.cpu().numpy()
+
+    def save(self, path) :
+
+        torch.save(self.modelo, path)
+        print(f"[ANNmodel] Modelo guardado en {path}")
+
+    def load(self, path) :
+
+        self.modelo = torch.load(path)
+        print(f"[ANNmodel] Modelo cargado de {path}")
 
 
 class NnModule(nn.Module) :
     def __init__(self, n_features, n_classes, capas_ocultas, dropout) :
+        super().__init__()
 
         self.lineales = nn.ModuleList()
         self.dropouts = nn.ModuleList()
@@ -149,7 +165,7 @@ class NnModule(nn.Module) :
         
         self.relu = nn.ReLU()
 
-    def forward(self, X) :
+    def forward(self, x) :
 
         for capa_lineal, capa_dropouts in zip(self.lineales, self.dropouts) :
 
