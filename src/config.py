@@ -110,13 +110,17 @@ HIPERPARAMETROS_ANN = {
 
 K_GRIDSEARCH = [5, 10, 25, 50, 100]
 
+KNN_GRID = {
+    "n_neighbors": K_GRIDSEARCH,       # Cambia esto por tu variable K_GRIDSEARCH
+    "weights": ["uniform", "distance"], 
+    "metric": ["minkowski"],            
+    "p": [1, 2],
+    "algorithm" : ["brute", "auto", "ball-tree"]                    
+}
+
 HIPERPARAMETROS_KNN = {
-    "n_neighbors" : K_GRIDSEARCH,
-    "weights" : "distance",
-    "metric" : "moinkowski",
-    "p" : 1,
-    "algorithm" : "brute",
     "n_jobs" : -1,
     "semilla" : SEMILLA,
-    "n_muestras" : 8000 #submuestreo
+    "n_muestras" : 8000,
+    "dict" : KNN_GRID
 }

@@ -3,6 +3,7 @@ import pandas as pd
 
 from pathlib import Path
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import GridSearchCV
 
 from src.models.base import model
 from src.data.splitter import submuestreo_estratificado
@@ -10,21 +11,29 @@ from src.data.splitter import submuestreo_estratificado
 
 class KNNmodel(model):
 
-    def __init__(self, n_neighbors, weights, metric, p, algorithm, n_jobs, semilla, n_muestras) :
+    def __init__(self, n_jobs, semilla, n_muestras, dict) :
         self.entrenado = False
 
-        self.model = KNeighborsClassifier(n_neighbors = n_neighbors,
-                                          weights = weights,
-                                          metric = metric,
-                                          p = p,
-                                          algorithm = algorithm,
-                                          n_jobs = n_jobs)
+        self.model = KNeighborsClassifier(n_jobs = n_jobs)
+        self.n_jobs = n_jobs
+        self.param_grid = dict
         self.semilla = semilla
         self.n_muestras = n_muestras
     
     def fit(self, x_train, y_train, x_validar = None, y_validar = None) :
 
         x_train_copia, y_train_copia = submuestreo_estratificado(x_train, y_train, self.n_muestras, self.semilla)
+
+
+
+        grid = GridSearchCV(estimator = self.model,
+                            param_grid = self.param_grid,
+                            cv = 5, #investigar por qué los folds
+                            scoring = "f1",
+                            n_jobs = self.n_jobs
+                            )
+        
+        grid.fit(x_train_copia, y_train_copia)
 
 
         pass
