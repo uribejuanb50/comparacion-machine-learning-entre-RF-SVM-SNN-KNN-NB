@@ -21,10 +21,9 @@ class KNNmodel(model):
         self.n_muestras = n_muestras
     
     def fit(self, x_train, y_train, x_validar = None, y_validar = None) :
+        print("[KNNmodel] Empezando entrenamiento...")
 
         x_train_copia, y_train_copia = submuestreo_estratificado(x_train, y_train, self.n_muestras, self.semilla)
-
-
 
         grid = GridSearchCV(estimator = self.model,
                             param_grid = self.param_grid,
@@ -35,8 +34,13 @@ class KNNmodel(model):
         
         grid.fit(x_train_copia, y_train_copia)
 
+        self.modelo = grid.best_estimator_
+        self.entrenado = True
 
-        pass
+        print(f"[KNNmodel] Mejores params: {grid.best_params_}")
+        print(f"[KNNmodel] Puntaje f1 en Cross Validation (CV): {grid.best_score_:.4f}")
+        print("[KNNmodel] Entrenamiento terminado")
+        return
 
     def predict(self, x_test):
         pass
