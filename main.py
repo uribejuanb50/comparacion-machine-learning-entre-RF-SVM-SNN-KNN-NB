@@ -22,6 +22,8 @@ from src.models.RFmodel import RFmodel
 from src.models.ANNmodel import ANNmodel
 from src.models.KNNmodel import KNNmodel
 
+from sklearn.linear_model import LogisticRegression
+
 def main():
 
     #dataframe = loader.leer_archivo(DATASET1, ESPERADOS)
@@ -49,12 +51,13 @@ def main():
     for cabecera, valor in zip(cabeceras, primera_linea) :
         print(f"{cabecera} - {valor}")
 
-    #model = RFmodel(**HIPERPARAMETROS_RF)
+    #model = LogisticRegression(max_iter=1000, random_state=SEMILLA)
+    model = RFmodel(**HIPERPARAMETROS_RF)
     #model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
     #model = ANNmodel(**HIPERPARAMETROS_ANN)
-    #model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
-    model = KNNmodel(**HIPERPARAMETROS_KNN)
     model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
+    #model = KNNmodel(**HIPERPARAMETROS_KNN)
+    #model.fit(valores["x_train"], valores["y_train"])
     #print(f"[main] predict:\n{model.predict(valores['x_test'])}")
     #print(f"[main] predict_proba:\n{model.predict_proba(valores['x_test'])}")
 
