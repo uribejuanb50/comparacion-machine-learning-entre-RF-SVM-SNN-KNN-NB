@@ -19,11 +19,6 @@ from src.config import (DATASET,
                         HIPERPARAMETROS_ANN,
                         HIPERPARAMETROS_KNN)
 
-from src.models.RFmodel import RFmodel
-from src.models.ANNmodel import ANNmodel
-from src.models.KNNmodel import KNNmodel
-
-
 def main():
 
     dataframe = loader.leer_archivo(DATASET, ESPERADOS)
