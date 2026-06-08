@@ -124,3 +124,17 @@ HIPERPARAMETROS_KNN = {
     "n_muestras" : 8000,
     "dict" : KNN_GRID
 }
+
+#SVM ----------------------
+SVM_GRID = {
+    "C": [0.1, 1, 10, 100],
+    "gamma" : ["scale", 0.01, 0.1, 1],
+    "kernel" : ["rbf", "linear"]
+}
+
+HIPERPARAMETROS_SVM = {
+    "n_muestras"
+    "probabilidad" : True,
+    "semilla" : SEMILLA,
+    "dict" : SVM_GRID
+}
