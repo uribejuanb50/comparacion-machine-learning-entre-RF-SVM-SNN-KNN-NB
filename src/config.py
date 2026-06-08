@@ -138,3 +138,14 @@ HIPERPARAMETROS_SVM = {
     "semilla" : SEMILLA,
     "dict" : SVM_GRID
 }
+
+#NB ---
+
+NB_GRID = {
+    "var_smoothing" : ["1e-9", "1e-12", "1e-2"]
+}
+
+HIPERPARAMETROS_NB = {
+    "priors" : None,
+    "dict" : NB_GRID
+}

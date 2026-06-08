@@ -13,7 +13,7 @@ def codificar_columna(dataframe, columna, diccionario, tipo) :
 
 def one_hot_cambio(x_train, x_validar, x_test, categoricas, numericas, log_transform) :
 
-    print(f"[Preprocessor] Categoricas:\n{categoricas}\nnumericas:\n{numericas}")   
+    print(f"[Preprocessor] Categoricas:\n{categoricas}\nnumericas:\n{numericas}\nlog transform\n{log_transform}")   
     one_hot = OneHotEncoder(handle_unknown = "infrequent_if_exist", sparse_output= True, min_frequency = 100)
 
     escalador_numerico = StandardScaler()
