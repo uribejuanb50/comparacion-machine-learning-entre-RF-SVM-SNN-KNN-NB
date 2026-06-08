@@ -1,4 +1,5 @@
 import joblib
+import time
 import pandas as pd
 
 from pathlib import Path
@@ -47,10 +48,21 @@ class KNNmodel(model):
         return
 
     def predict(self, x_test):
-        pass
+        super().verificar_entrenado()
+
+        inicio_predict = time.perf_counter()
+
+        prediccion = self.model.predict(x_test)
+
+        fin_predict = time.perf_counter()
+        self.tiempo_prediccion = fin_predict - inicio_predict
+
+        return prediccion
 
     def predict_proba(self, x_test):
-        return 
+        super().verificar_entrenado()
+
+        return self.model.predict_proba(x_test)
 
     def save(self, path):
         pass

@@ -1,11 +1,10 @@
 from src.models.base import model
 
+import time
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 import copy as cpy
-
 import numpy as np
 
 from torch.utils.data import TensorDataset, DataLoader
@@ -126,7 +125,10 @@ class ANNmodel(model) :
     def predict(self, x_test) :
         super().verificar_entrenado()
 
+        inicio_predict = time.perf_counter()
+
         self.modelo.eval()
+        prediccion = ""
 
         with torch.no_grad() :
 
@@ -138,7 +140,10 @@ class ANNmodel(model) :
 
             prediccion = (outputs_predict >= 0.5).int()
 
-            return prediccion.cpu().numpy()
+        final_predict = time.perf_counter()
+        self.tiempo_prediccion = final_predict - inicio_predict
+        
+        return prediccion.cpu().numpy()
 
     def predict_proba(self, x_test):
         super().verificar_entrenado()

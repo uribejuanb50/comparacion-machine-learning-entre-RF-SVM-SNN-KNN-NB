@@ -1,4 +1,5 @@
 import json
+import time
 import joblib
 from src.models.base import model
 from xgboost import XGBClassifier
@@ -29,13 +30,18 @@ class RFmodel(model) :
         return
     
     def predict(self, x_train):
-
         super().verificar_entrenado()
-        
-        return self.model.predict(x_train)
+
+        inicio_prediccion = time.perf_counter()
+
+        prediccion = self.model.predict(x_train)
+
+        fin_prediccion = time.perf_counter()
+        self.tiempo_prediccion = fin_prediccion - inicio_prediccion
+
+        return prediccion
 
     def predict_proba(self, x_train):
-
         super().verificar_entrenado()
 
         return self.model.predict_proba(x_train)

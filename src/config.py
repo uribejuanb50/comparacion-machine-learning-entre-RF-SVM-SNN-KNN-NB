@@ -112,7 +112,7 @@ K_GRIDSEARCH = [5, 10, 25, 50, 100]
 
 KNN_GRID = {
     "n_neighbors": K_GRIDSEARCH,       # Cambia esto por tu variable K_GRIDSEARCH
-    "weights": ["uniform", "distance"], 
+    "weights": ["distance"], 
     "metric": ["minkowski"],            
     "p": [1, 2],                 
 }
