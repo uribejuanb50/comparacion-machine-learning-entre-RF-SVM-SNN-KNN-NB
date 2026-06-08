@@ -11,7 +11,7 @@ class SVMmodel(model):
 
     def __init__(self, n_muestras, probabilidad, semilla, dict) :
         super().__init__()
-        self.n_muestras = n_muestras,
+        self.n_muestras = n_muestras
         self.semilla = semilla
         self.param_grid = dict
         self.model = SVC(probability=probabilidad, random_state=semilla)
@@ -24,7 +24,6 @@ class SVMmodel(model):
         grid.fit(x_train_copia, y_train_copia)
 
         self.model = grid.best_estimator_
-        self.model.fit(x_train, y_train)
 
         self.entrenado = True
 

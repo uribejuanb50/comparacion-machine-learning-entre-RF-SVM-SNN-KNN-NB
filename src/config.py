@@ -133,7 +133,7 @@ SVM_GRID = {
 }
 
 HIPERPARAMETROS_SVM = {
-    "n_muestras"
+    "n_muestras" : 8000,
     "probabilidad" : True,
     "semilla" : SEMILLA,
     "dict" : SVM_GRID

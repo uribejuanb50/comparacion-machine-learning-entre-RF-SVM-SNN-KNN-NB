@@ -39,8 +39,6 @@ class KNNmodel(model):
         self.model = grid.best_estimator_
         self.entrenado = True
 
-        self.model.fit(x_train, y_train)
-
         print(f"[KNNmodel] Mejores params: {grid.best_params_}")
         print(f"[KNNmodel] Puntaje f1 en Cross Validation (CV): {grid.best_score_:.4f}")
         print("[KNNmodel] Entrenamiento terminado")
