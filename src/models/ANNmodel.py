@@ -14,6 +14,7 @@ from torch.utils.data import TensorDataset, DataLoader
 class ANNmodel(model) :
     def __init__(self, capas_ocultas, dropout, learning_rate, batch_size, epochs, patience, semilla = 42,
                  device = "cuda" if torch.cuda.is_available() else "cpu") :
+        super().__init__()
 
         torch.manual_seed(semilla)
         torch.backends.cudnn.deterministic = True
@@ -117,10 +118,14 @@ class ANNmodel(model) :
         self.modelo = nnModule
         nnModule.load_state_dict(mejores_pesos)
 
+        self.entrenado = True
+
         print("[ANNmodel] Entrenamiento finalizado")      
         return
     
     def predict(self, x_test) :
+        super().verificar_entrenado()
+
         self.modelo.eval()
 
         with torch.no_grad() :
@@ -136,6 +141,8 @@ class ANNmodel(model) :
             return prediccion.cpu().numpy()
 
     def predict_proba(self, x_test):
+        super().verificar_entrenado()
+
         self.modelo.eval()
 
         with torch.no_grad() :

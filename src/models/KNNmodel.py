@@ -12,7 +12,7 @@ from src.data.splitter import submuestreo_estratificado
 class KNNmodel(model):
 
     def __init__(self, algorithm, n_jobs, semilla, n_muestras, dict) :
-        self.entrenado = False
+        super().__init__()
 
         self.model = KNeighborsClassifier(algorithm = algorithm, n_jobs = n_jobs)
         self.n_jobs = n_jobs

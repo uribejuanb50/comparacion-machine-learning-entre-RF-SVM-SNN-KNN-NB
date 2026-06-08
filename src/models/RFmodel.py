@@ -5,8 +5,9 @@ from xgboost import XGBClassifier
 
 class RFmodel(model) :
     def __init__(self, **kwargs) :
+        super().__init__()
+
         self.hiperparametros = kwargs
-        self.entrenado = False
         self.model = XGBClassifier(**self.hiperparametros)
 
     def fit(self, x_train, y_train, x_val = None, y_val = None) :
@@ -29,13 +30,13 @@ class RFmodel(model) :
     
     def predict(self, x_train):
 
-        self.verificar_entrenado()
+        super().verificar_entrenado()
         
         return self.model.predict(x_train)
 
     def predict_proba(self, x_train):
 
-        self.verificar_entrenado()
+        super().verificar_entrenado()
 
         return self.model.predict_proba(x_train)
 
@@ -53,8 +54,4 @@ class RFmodel(model) :
         
         return
 
-    def verificar_entrenado(self) :
-        if(not self.entrenado) :
-            raise RuntimeError(
-                "[RFmodel] No hubo fit, ¿Cómo piensas predecir?"
-            )
+    
