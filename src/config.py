@@ -114,12 +114,12 @@ KNN_GRID = {
     "n_neighbors": K_GRIDSEARCH,       # Cambia esto por tu variable K_GRIDSEARCH
     "weights": ["uniform", "distance"], 
     "metric": ["minkowski"],            
-    "p": [1, 2],
-    "algorithm" : ["brute", "auto", "ball-tree"]                    
+    "p": [1, 2],                 
 }
 
 HIPERPARAMETROS_KNN = {
-    "n_jobs" : -1,
+    "algorithm" : "brute",
+    "n_jobs" : 1,
     "semilla" : SEMILLA,
     "n_muestras" : 8000,
     "dict" : KNN_GRID

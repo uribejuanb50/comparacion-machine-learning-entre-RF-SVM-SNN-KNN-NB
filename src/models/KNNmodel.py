@@ -29,7 +29,8 @@ class KNNmodel(model):
                             param_grid = self.param_grid,
                             cv = 5, #investigar por qué los folds
                             scoring = "f1",
-                            n_jobs = self.n_jobs
+                            n_jobs = self.n_jobs,
+                            verbose = 3
                             )
         
         grid.fit(x_train_copia, y_train_copia)
