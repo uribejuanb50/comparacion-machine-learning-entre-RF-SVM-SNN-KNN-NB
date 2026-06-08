@@ -126,23 +126,28 @@ HIPERPARAMETROS_KNN = {
 }
 
 #SVM ----------------------
-SVM_GRID = {
+SVM_GRID_RBF = {
     "C": [0.1, 1, 10, 100],
     "gamma" : ["scale", 0.01, 0.1, 1],
-    "kernel" : ["rbf", "linear"]
+    "kernel" : ["rbf"]
+}
+SVM_GRID_LINEAR = {
+    "C": [0.1, 1, 10, 100],
+    "kernel" : ["linear"]
 }
 
 HIPERPARAMETROS_SVM = {
     "n_muestras" : 8000,
     "probabilidad" : True,
     "semilla" : SEMILLA,
-    "dict" : SVM_GRID
+    "dict" : SVM_GRID_RBF,
+    "dict2" : SVM_GRID_LINEAR
 }
 
 #NB ---
 
 NB_GRID = {
-    "var_smoothing" : ["1e-9", "1e-12", "1e-2"]
+    "var_smoothing" : [1e-9, 1e-12, 1e-2]
 }
 
 HIPERPARAMETROS_NB = {

@@ -9,11 +9,11 @@ from sklearn.model_selection import GridSearchCV
 
 class SVMmodel(model):
 
-    def __init__(self, n_muestras, probabilidad, semilla, dict) :
+    def __init__(self, n_muestras, probabilidad, semilla, dict, dict2) :
         super().__init__()
         self.n_muestras = n_muestras
         self.semilla = semilla
-        self.param_grid = dict
+        self.param_grid = [dict, dict2]
         self.model = SVC(probability=probabilidad, random_state=semilla)
 
     def fit(self, x_train, y_train, x_validar, y_validar) :
@@ -54,7 +54,7 @@ class SVMmodel(model):
     def load(self, path):
         self.model = joblib.load(path)
         print(f"[SVMmodel] cargado desde {path}")
-        return 
+        return
 
 
 

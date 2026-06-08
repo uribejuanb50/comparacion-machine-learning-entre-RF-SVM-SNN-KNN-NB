@@ -3,12 +3,13 @@ from src.models.RFmodel import RFmodel
 from src.models.ANNmodel import ANNmodel
 from src.models.KNNmodel import KNNmodel
 from src.models.SVMmodel import SVMmodel
+from src.models.NBmodel import NBmodel
 
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
 
 
-def entrenar_modelos(semilla, valores, hp_rf, hp_ann, hp_knn, hp_svm, hp_nb = None) :
+def entrenar_modelos(semilla, valores, hp_rf, hp_ann, hp_knn, hp_svm, hp_nb) :
     x_train = valores["x_train"]
     y_train = valores["y_train"]
     x_validar = valores["x_validar"]
@@ -34,10 +35,13 @@ def entrenar_modelos(semilla, valores, hp_rf, hp_ann, hp_knn, hp_svm, hp_nb = No
 
     knn_model : Modelo_base = KNNmodel(**hp_knn)
     knn_model.fit(x_train, y_train, x_validar, y_validar)
-    '''
+    
     svm_model : Modelo_base = SVMmodel(**hp_svm)
     svm_model.fit(x_train, y_train, x_validar, y_validar)
-
+    '''
+    nb_model : Modelo_base = NBmodel(**hp_nb)
+    nb_model.fit(x_train, y_train, x_validar, y_validar)
+    
     return {
         '''
         "Dummy" : dummy,
@@ -45,6 +49,7 @@ def entrenar_modelos(semilla, valores, hp_rf, hp_ann, hp_knn, hp_svm, hp_nb = No
         "RF" : rf_model,
         "ANN" : ann_model,
         "KNN" : knn_model,
+        "SVM" : svm_model,
         ''' : 0,
-        "SVM" : svm_model
+        "NB" : nb_model
     }

@@ -18,7 +18,8 @@ from src.config import (DATASET,
                         HIPERPARAMETROS_RF,
                         HIPERPARAMETROS_ANN,
                         HIPERPARAMETROS_KNN,
-                        HIPERPARAMETROS_SVM)
+                        HIPERPARAMETROS_SVM,
+                        HIPERPARAMETROS_NB)
 
 def main():
 
@@ -40,9 +41,10 @@ def main():
                                         hp_rf= HIPERPARAMETROS_RF,
                                         hp_ann= HIPERPARAMETROS_ANN,
                                         hp_knn= HIPERPARAMETROS_KNN,
-                                        hp_svm=HIPERPARAMETROS_SVM)
+                                        hp_svm=HIPERPARAMETROS_SVM,
+                                        hp_nb=HIPERPARAMETROS_NB)
 
-    model = modelos["SVM"]
+    model = modelos["NB"]
     
     print(f"[main] predict:\n{model.predict(valores['x_test'])}")
     print(f"[main] predict_proba:\n{model.predict_proba(valores['x_test'])}")
