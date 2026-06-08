@@ -65,8 +65,14 @@ class KNNmodel(model):
         return self.model.predict_proba(x_test)
 
     def save(self, path):
-        pass
+        joblib.dump(self.model, path)
+        print(f"[KNNmodel] Modelo guardado en {path}")
+
+        return
 
     def load(self, path):
+        self.model = joblib.load(path)
+        print(f"[KNNmodel] Modelo cargado desde {path}")
+
         return
         

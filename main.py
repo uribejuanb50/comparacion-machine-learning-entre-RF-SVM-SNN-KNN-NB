@@ -60,8 +60,8 @@ def main():
 
     y_pred = model.predict(valores["x_test"])
 
-    #print(confusion_matrix(valores["y_test"], y_pred))
-    #print(classification_report(valores["y_test"], y_pred))
+    print(confusion_matrix(valores["y_test"], y_pred))
+    print(classification_report(valores["y_test"], y_pred))
 
 
 
