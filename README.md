@@ -37,6 +37,7 @@ steel_load_classification/
 ├── README.md
 └── main.py
 
+Para instalar torch = pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 ### src/data
 
 ## src/data/loader.py

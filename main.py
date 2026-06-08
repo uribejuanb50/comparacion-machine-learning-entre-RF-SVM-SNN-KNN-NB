@@ -1,5 +1,6 @@
 import src.data.loader as loader
 import src.experiments.preparation as preparation
+import src.experiments.training as training
 
 from sklearn.metrics import confusion_matrix, classification_report
 
@@ -22,16 +23,10 @@ from src.models.RFmodel import RFmodel
 from src.models.ANNmodel import ANNmodel
 from src.models.KNNmodel import KNNmodel
 
-from sklearn.linear_model import LogisticRegression
 
 def main():
 
-    #dataframe = loader.leer_archivo(DATASET1, ESPERADOS)
-    #print(dataframe)
     dataframe = loader.leer_archivo(DATASET, ESPERADOS)
-    
-    print(dataframe["income"].unique())
-    print(dataframe["income"].value_counts())
 
     valores = preparation.preparacion(dataframe= dataframe,
                                       col_objetivo= OBJETIVO[0],
@@ -43,23 +38,17 @@ def main():
                                       numericas= NUMERICAS,
                                       log_transform= LOG_TRANSFORM,
                                       cols_dropear= COLS_A_DROPEAR)
-    x_train = valores["x_train"]
+    
+    modelos = training.entrenar_modelos(semilla= SEMILLA,
+                                        valores= valores,
+                                        hp_rf= HIPERPARAMETROS_RF,
+                                        hp_ann= HIPERPARAMETROS_ANN,
+                                        hp_knn= HIPERPARAMETROS_KNN)
 
-    primera_linea = x_train[0].toarray().flatten().tolist()
-    cabeceras = valores["features"]
-
-    for cabecera, valor in zip(cabeceras, primera_linea) :
-        print(f"{cabecera} - {valor}")
-
-    #model = LogisticRegression(max_iter=1000, random_state=SEMILLA)
-    model = RFmodel(**HIPERPARAMETROS_RF)
-    #model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
-    #model = ANNmodel(**HIPERPARAMETROS_ANN)
-    model.fit(valores["x_train"], valores["y_train"], valores["x_validar"], valores["y_validar"])
-    #model = KNNmodel(**HIPERPARAMETROS_KNN)
-    #model.fit(valores["x_train"], valores["y_train"])
-    #print(f"[main] predict:\n{model.predict(valores['x_test'])}")
-    #print(f"[main] predict_proba:\n{model.predict_proba(valores['x_test'])}")
+    model = modelos["ANN"]
+    
+    print(f"[main] predict:\n{model.predict(valores['x_test'])}")
+    print(f"[main] predict_proba:\n{model.predict_proba(valores['x_test'])}")
 
     y_pred = model.predict(valores["x_test"])
 
