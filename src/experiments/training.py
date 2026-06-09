@@ -16,24 +16,24 @@ def entrenar_modelos(semilla, valores, hp_rf, hp_ann, hp_knn, hp_svm, hp_nb) :
     features = valores["features"]
 
     rf_model : Modelo_base  = RFmodel(**hp_rf)
-    #rf_model.fit(x_train, y_train, x_validar, y_validar)
+    rf_model.fit(x_train, y_train, x_validar, y_validar)
 
     ann_model : Modelo_base = ANNmodel(**hp_ann)
     ann_model.fit(x_train, y_train, x_validar, y_validar)
 
     knn_model : Modelo_base = KNNmodel(**hp_knn)
-    #knn_model.fit(x_train, y_train, x_validar, y_validar)
+    knn_model.fit(x_train, y_train, x_validar, y_validar)
     
     svm_model : Modelo_base = SVMmodel(**hp_svm)
-    #svm_model.fit(x_train, y_train, x_validar, y_validar)
+    svm_model.fit(x_train, y_train, x_validar, y_validar)
 
     nb_model : Modelo_base = NBmodel(**hp_nb)
     nb_model.fit(x_train, y_train, x_validar, y_validar)
     
     return {
-        #"RF" : rf_model,
+        "RF" : rf_model,
         "ANN" : ann_model,
-        #"KNN" : knn_model,
-        #"SVM" : svm_model,
+        "KNN" : knn_model,
+        "SVM" : svm_model,
         "NB" : nb_model
     }

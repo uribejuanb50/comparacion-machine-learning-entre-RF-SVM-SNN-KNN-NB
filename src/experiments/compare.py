@@ -5,9 +5,9 @@ import json
 def comparar_modelos_estadisticamente(valores, predicciones, alpha, path_metricas) :
 
     pares = [
-        #("RF", "ANN"),
-        #("KNN", "ANN"),
-        #("SVM", "ANN"),
+        ("RF", "ANN"),
+        ("KNN", "ANN"),
+        ("SVM", "ANN"),
         ("NB", "ANN")
     ]
 
