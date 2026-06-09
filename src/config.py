@@ -175,3 +175,5 @@ COLORMAPS_MODELOS = {   # ← nuevo, solo para el heatmap de confusión
     "SVM": "Reds",
     "NB" : "Purples",
 }
+
+ALPHA = 0.05

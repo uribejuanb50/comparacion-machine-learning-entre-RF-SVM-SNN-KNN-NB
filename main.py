@@ -2,6 +2,7 @@ import src.data.loader as loader
 import src.experiments.preparation as preparation
 import src.experiments.training as training
 import src.experiments.evaluation as evaluation
+import src.experiments.compare as compare
 
 from sklearn.metrics import confusion_matrix, classification_report
 
@@ -25,7 +26,8 @@ from src.config import (DATASET,
                         METRICS,
                         COLORES_MODELOS,
                         COLORMAPS_MODELOS,
-                        NOMBRE_CLASES)
+                        NOMBRE_CLASES,
+                        ALPHA)
 
 def main():
 
@@ -57,6 +59,11 @@ def main():
                                                                  COLORES_MODELOS, 
                                                                  COLORMAPS_MODELOS,
                                                                  NOMBRE_CLASES)
+
+    resultados = compare.comparar_modelos_estadisticamente(valores= valores,
+                                                           predicciones= predicciones_por_modelo,
+                                                           alpha= ALPHA,
+                                                           path_metricas= METRICS)
 
     model = modelos["NB"]
     
