@@ -24,7 +24,7 @@ def entrenar_modelos(semilla, valores, hp_rf, hp_ann, hp_knn, hp_svm, hp_nb) :
     knn_model : Modelo_base = KNNmodel(**hp_knn)
     #knn_model.fit(x_train, y_train, x_validar, y_validar)
     
-    #svm_model : Modelo_base = SVMmodel(**hp_svm)
+    svm_model : Modelo_base = SVMmodel(**hp_svm)
     #svm_model.fit(x_train, y_train, x_validar, y_validar)
 
     nb_model : Modelo_base = NBmodel(**hp_nb)

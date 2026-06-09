@@ -30,7 +30,7 @@ def evaluar(valores, modelos, path_figures, path_metrics, colores, colormaps, no
                                                 objetivo_predict,
                                                 colormaps,
                                                 nombre,
-                                                features,
+                                                nombre_clases,
                                                 f"Matriz de confusión '{nombre}'",
                                                 path_figures / f"matriz_confusion_{nombre}.png")
         visualization.graficar_curva_roc_binaria(y_test,

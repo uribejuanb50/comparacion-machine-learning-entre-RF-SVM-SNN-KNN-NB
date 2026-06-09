@@ -52,8 +52,8 @@ def main():
                                         hp_svm=HIPERPARAMETROS_SVM,
                                         hp_nb=HIPERPARAMETROS_NB)
     
-    metricas_todos, predicciones_por_modelo = evaluation.evaluar(valores, 
-                                                                 modelos, 
+    metricas_todos, predicciones_por_modelo = evaluation.evaluar(valores,
+                                                                 modelos,
                                                                  FIGURES, 
                                                                  METRICS, 
                                                                  COLORES_MODELOS, 
@@ -64,16 +64,6 @@ def main():
                                                            predicciones= predicciones_por_modelo,
                                                            alpha= ALPHA,
                                                            path_metricas= METRICS)
-
-    model = modelos["NB"]
-    
-    print(f"[main] predict:\n{model.predict(valores['x_test'])}")
-    print(f"[main] predict_proba:\n{model.predict_proba(valores['x_test'])}")
-
-    y_pred = model.predict(valores["x_test"])
-
-    print(confusion_matrix(valores["y_test"], y_pred))
-    print(classification_report(valores["y_test"], y_pred))
 
 
 
