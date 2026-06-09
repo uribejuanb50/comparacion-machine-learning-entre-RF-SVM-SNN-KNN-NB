@@ -1,4 +1,6 @@
 from pathlib import Path
+import seaborn as sns
+
 
 RAIZ = Path(__file__).resolve().parents[1]
 
@@ -89,6 +91,7 @@ HIPERPARAMETROS_RF = {
         'subsample': 0.8
     }
 
+NOMBRE_CLASES = ["<=50K", ">50K"]
 
 #ANN-------------------------
 CAPAS_OCULTAS = [128, 64, 32]
@@ -153,4 +156,14 @@ NB_GRID = {
 HIPERPARAMETROS_NB = {
     "priors" : None,
     "dict" : NB_GRID
+}
+
+#visualization.py
+
+COLORES_MODELOS = {
+    "RF" : "C0",
+    "ANN" : "C1",
+    "KNN" : "C2",
+    "SVM" : "C3",
+    "NB" : "C4"
 }

@@ -43,12 +43,12 @@ def calcular_metricas(y_true, y_pred, y_proba, nombre_clases) :
         "classification_report" : report
     }
 
-def guardar_metricas(metricas, nombre, path) :
+def guardar_metricas(metricas, path) :
 
-    with open(path / nombre, "w", encoding="utf-8") as f :
+    with open(path, "w", encoding="utf-8") as f :
         json.dump(metricas, f, indent=2, default=str)
 
-def imprimir_resumen_corporativo(metricas, metrica_primaria, nombre, path):
+def imprimir_resumen_corporativo(metricas, metrica_primaria, path):
 
     df_metricas = pd.DataFrame(metricas).T
     
@@ -63,5 +63,5 @@ def imprimir_resumen_corporativo(metricas, metrica_primaria, nombre, path):
     print("[Metrics] resumen comparativo de los modelos " + "="*60)
     print(df_metricas.to_string(float_format = lambda x : f"{x:.4f}"))
     
-    df_metricas.to_csv(path / nombre, index_label="modelo", float_format="%.4f")
-    print(f"[Metrics] resumen guardado en {path / nombre}")
+    df_metricas.to_csv(path, index_label="modelo", float_format="%.4f")
+    print(f"[Metrics] resumen guardado en {path}")

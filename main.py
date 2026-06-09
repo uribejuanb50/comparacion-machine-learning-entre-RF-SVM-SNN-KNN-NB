@@ -1,6 +1,7 @@
 import src.data.loader as loader
 import src.experiments.preparation as preparation
 import src.experiments.training as training
+import src.experiments.evaluation as evaluation
 
 from sklearn.metrics import confusion_matrix, classification_report
 
@@ -19,7 +20,10 @@ from src.config import (DATASET,
                         HIPERPARAMETROS_ANN,
                         HIPERPARAMETROS_KNN,
                         HIPERPARAMETROS_SVM,
-                        HIPERPARAMETROS_NB)
+                        HIPERPARAMETROS_NB,
+                        FIGURES,
+                        METRICS,
+                        COLORES_MODELOS)
 
 def main():
 
@@ -43,6 +47,8 @@ def main():
                                         hp_knn= HIPERPARAMETROS_KNN,
                                         hp_svm=HIPERPARAMETROS_SVM,
                                         hp_nb=HIPERPARAMETROS_NB)
+    
+    metricas_todos, predicciones_por_modelo = evaluation.evaluar(valores, modelos, FIGURES, METRICS, COLORES_MODELOS)
 
     model = modelos["NB"]
     

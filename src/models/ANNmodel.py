@@ -58,6 +58,9 @@ class ANNmodel(model) :
         mejor_epoca = 0
         status = ""
 
+        historial_train_loss = []
+        historial_val_loss = []
+
         for epoca in range(self.epochs) :
 
             nnModule.train()
@@ -95,6 +98,9 @@ class ANNmodel(model) :
             train_loss_promedio = acum_perdida / len(data_loader)
             val_loss_actual = loss_validar.item()
 
+            historial_train_loss.append(train_loss_promedio)
+            historial_val_loss.append(val_loss_actual)
+
             if val_loss_actual < mejor_loss_validar :
 
                 mejor_loss_validar = val_loss_actual
@@ -118,6 +124,10 @@ class ANNmodel(model) :
         nnModule.load_state_dict(mejores_pesos)
 
         self.entrenado = True
+        self.history = {
+            "loss" : historial_train_loss,
+            "val_loss" : historial_val_loss
+        }
 
         print("[ANNmodel] Entrenamiento finalizado")      
         return
