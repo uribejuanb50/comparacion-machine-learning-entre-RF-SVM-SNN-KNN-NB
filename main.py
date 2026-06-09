@@ -23,7 +23,9 @@ from src.config import (DATASET,
                         HIPERPARAMETROS_NB,
                         FIGURES,
                         METRICS,
-                        COLORES_MODELOS)
+                        COLORES_MODELOS,
+                        COLORMAPS_MODELOS,
+                        NOMBRE_CLASES)
 
 def main():
 
@@ -48,7 +50,13 @@ def main():
                                         hp_svm=HIPERPARAMETROS_SVM,
                                         hp_nb=HIPERPARAMETROS_NB)
     
-    metricas_todos, predicciones_por_modelo = evaluation.evaluar(valores, modelos, FIGURES, METRICS, COLORES_MODELOS)
+    metricas_todos, predicciones_por_modelo = evaluation.evaluar(valores, 
+                                                                 modelos, 
+                                                                 FIGURES, 
+                                                                 METRICS, 
+                                                                 COLORES_MODELOS, 
+                                                                 COLORMAPS_MODELOS,
+                                                                 NOMBRE_CLASES)
 
     model = modelos["NB"]
     

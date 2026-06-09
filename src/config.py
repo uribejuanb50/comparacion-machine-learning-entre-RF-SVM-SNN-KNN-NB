@@ -161,9 +161,17 @@ HIPERPARAMETROS_NB = {
 #visualization.py
 
 COLORES_MODELOS = {
-    "RF" : "C0",
-    "ANN" : "C1",
-    "KNN" : "C2",
-    "SVM" : "C3",
-    "NB" : "C4"
+    "RF" : "C0",      # ← vuelve a C0/C1/etc. para las líneas
+    "ANN": "C1",
+    "KNN": "C2",
+    "SVM": "C3",
+    "NB" : "C4",
+}
+
+COLORMAPS_MODELOS = {   # ← nuevo, solo para el heatmap de confusión
+    "RF" : "Blues",
+    "ANN": "Oranges",
+    "KNN": "Greens",
+    "SVM": "Reds",
+    "NB" : "Purples",
 }

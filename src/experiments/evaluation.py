@@ -3,7 +3,7 @@ import src.evaluation.visualization as visualization
 
 from sklearn.metrics import f1_score
 
-def evaluar(valores, modelos, path_figures, path_metrics, colores) :
+def evaluar(valores, modelos, path_figures, path_metrics, colores, colormaps, nombre_clases) :
 
     x_test = valores["x_test"]
     y_test = valores["y_test"]
@@ -22,13 +22,13 @@ def evaluar(valores, modelos, path_figures, path_metrics, colores) :
         probas_por_modelo[nombre] = (y_test, objetivo_proba)
         predicciones_por_modelo[nombre] = objetivo_predict
 
-        metricas = metrics.calcular_metricas(y_test, objetivo_predict, objetivo_proba, features)
+        metricas = metrics.calcular_metricas(y_test, objetivo_predict, objetivo_proba, nombre_clases)
         metrics.guardar_metricas(metricas, path_metrics / f"metricas_{nombre}.JSON")
         metricas_todos[nombre] = metricas
 
         visualization.graficar_matriz_confusion(y_test,
                                                 objetivo_predict,
-                                                colores,
+                                                colormaps,
                                                 nombre,
                                                 features,
                                                 f"Matriz de confusión '{nombre}'",
@@ -46,8 +46,16 @@ def evaluar(valores, modelos, path_figures, path_metrics, colores) :
                                           path_figures / "roc_comparativo_todos.png")
     visualization.graficar_curvas_aprendizaje(modelos["ANN"].history,
                                               path_figures / "curvas_aprendizaje_ANN.png")
+    
+    modelos_rayo = {
+        #"RF" : modelos["RF"],
+        "ANN" : modelos["ANN"],
+        #"KNN" : modelos["KNN"],
+        "NB" : modelos["NB"]
+    }
+
     visualization.graficar_curva_aprendizaje_vs_tamano(
-        modelos       = modelos,
+        modelos       = modelos_rayo,
         x_train       = valores["x_train"],
         y_train       = valores["y_train"],
         x_val         = valores["x_validar"],
@@ -61,3 +69,5 @@ def evaluar(valores, modelos, path_figures, path_metrics, colores) :
     metrics.imprimir_resumen_corporativo(metricas_todos, 
                                          "f1_macro",
                                          path_metrics / "resumen_corporativo_metricas.csv")
+    
+    return metricas_todos, predicciones_por_modelo

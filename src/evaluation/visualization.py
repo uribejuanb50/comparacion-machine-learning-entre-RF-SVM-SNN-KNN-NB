@@ -11,12 +11,25 @@ from sklearn.metrics import (confusion_matrix,
                              precision_recall_curve, 
                              average_precision_score)
 
+COLOR_TO_CMAP = {
+    "C0": "Blues", "C1": "Oranges", "C2": "Greens",
+    "C3": "Reds",  "C4": "Purples",
+}
+
 def graficar_matriz_confusion(y_true, y_pred, colores, nombre_modelo, nombre_clases, titulo, ruta_salida, normalizar=False):
-    matriz, fmt_val, i = confusion_matrix(y_true, y_pred), "d", 0 if not normalizar else confusion_matrix(y_true,y_pred, normalize="true"), ".2f", 1
+    # Reemplaza la línea 15 problemática por esto:
+    if normalizar:
+        matriz = confusion_matrix(y_true, y_pred, normalize="true")
+        fmt_val = ".2f"
+        i = 1
+    else:
+        matriz = confusion_matrix(y_true, y_pred)
+        fmt_val = "d"
+        i = 0
 
     fig, axes = plt.subplots(1, 2, figsize=(14,5))
 
-    cmap_modelo = colores.get(nombre_modelo)
+    cmap_modelo = colores.get(nombre_modelo, "Blues")
 
     sns.heatmap(matriz,
                 annot=True,
@@ -40,11 +53,14 @@ def graficar_curva_roc_binaria(y_true, y_proba, colores, nombre_modelo, titulo, 
 
     fpr, tpr, _= roc_curve(y_true, y_proba[:,1])
     roc_auc = auc(fpr, tpr)
-    plt.figure(figsize=(8, 6))
+    fig = plt.figure(figsize=(8, 6))
 
-    color_linea = colores.get(nombre_modelo)
+    color_linea = colores.get(nombre_modelo, "C0")
 
-    plt.plot(fpr, tpr, color= color_linea, lw=2, linestyle="--")
+    plt.plot(fpr, tpr, color= color_linea, lw=2,
+             label=f"Curva ROC (AUC = {roc_auc:.3f})")
+    
+    plt.plot([0, 1], [0, 1], color="gray", lw=2, linestyle="--")
 
     plt.xlim([0.0, 0.1])
     plt.ylim([0.0, 1.05])
@@ -55,7 +71,7 @@ def graficar_curva_roc_binaria(y_true, y_proba, colores, nombre_modelo, titulo, 
     plt.grid(alpha=0.3)
 
     plt.savefig(ruta_salida, dpi=300, bbox_inches="tight")
-    plt.close()
+    plt.close(fig)
 
     print(f"[Visualization] grafica curva roc auc de {nombre_modelo} guardada en {ruta_salida}")
 
@@ -64,8 +80,8 @@ def grafica_roc_comparativa(y_true, probas_por_modelo, colores, ruta_salida):
 
     fig, axes = plt.subplots(1, 2, figsize=(16,6))
 
-    for nombre, y_proba in probas_por_modelo.items():
-        color = colores.get(nombre)
+    for nombre, (_, y_proba) in probas_por_modelo.items():
+        color = colores.get(nombre, "C0")
         fpr, tpr, _ = roc_curve(y_true, y_proba[:,1])
         roc_auc = auc(fpr, tpr)
         axes[0].plot(fpr, tpr, color=color, lw=2, label=f"{nombre} (AUC = {roc_auc:.3f})")
@@ -81,27 +97,27 @@ def grafica_roc_comparativa(y_true, probas_por_modelo, colores, ruta_salida):
 
     baseline = np.sum(y_true) / len(y_true)
 
-    for nombre, y_proba in probas_por_modelo.items():
-        color = colores.get(nombre)
-        precision, recall, _ = precision_recall_curve(y_true, y_proba)
-        pr_auc = average_precision_score(y_true, y_proba)
+    for nombre, (_, y_proba) in probas_por_modelo.items():
+        color = colores.get(nombre, "C0")
+        precision, recall, _ = precision_recall_curve(y_true, y_proba[:,1])
+        pr_auc = average_precision_score(y_true, y_proba[:,1])
         axes[1].plot(recall, precision, color=color, lw=2, label=f"{nombre} (AP = {pr_auc:.3f})")
 
     axes[1].axhline(y=baseline, color="gray", lw=2, linestyle="--", label=f"Baseline ({baseline:.3f})")
     axes[1].set_xlim([0.0, 1.0])
     axes[1].set_ylim([0.0, 1.05])
     axes[1].set_xlabel("Recall (Exhaustividad)")
-    axes[1].set_ylable("Precision (Precisión)")
+    axes[1].set_ylabel("Precision (Precisión)")
     axes[1].legend(loc="lower left")
     axes[1].grid(alpha=0.3)
 
     plt.savefig(ruta_salida, dpi = 300, bbox_inches="tight")
-    plt.close()
+    plt.close(fig)
 
     print(f"[Visualization] Grafica ROC compaartiva gardada en {ruta_salida}")
 
 def graficar_curvas_aprendizaje(history, ruta_salida):
-    plt.figure(figsize=(10,6))
+    fig = plt.figure(figsize=(10,6))
     train_loss = history.get("loss", [])
     val_loss = history.get("val_loss", [])
     epocas = range(1, len(train_loss) + 1)
@@ -124,7 +140,7 @@ def graficar_curvas_aprendizaje(history, ruta_salida):
     plt.grid(alpha=0.3)
 
     plt.savefig(ruta_salida, dpi=300, bbox_inches="tight")
-    plt.close()
+    plt.close(fig)
 
 def graficar_curva_aprendizaje_vs_tamano(
     modelos: dict,
@@ -193,7 +209,7 @@ def graficar_curva_aprendizaje_vs_tamano(
             else:
                 x_sub, y_sub = x_train, y_train
  
-            modelo.fit(x_sub, y_sub)            # re-entrena desde cero
+            modelo.fit(x_sub, y_sub, x_val, y_val)            # re-entrena desde cero
             y_pred  = modelo.predict(x_val)
             score   = metrica_fn(y_val, y_pred)
             scores.append(score)
